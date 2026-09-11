@@ -1,5 +1,5 @@
 /* ============================================================================
-   NEVIS AFFAIR — interactions
+   ISLA SERENA AFFAIR — interactions
    ========================================================================== */
 (function () {
   "use strict";
@@ -51,7 +51,7 @@
       body.classList.remove("is-sealed");
       body.classList.add("entered");
       unlockBackground();
-      try { sessionStorage.setItem("nevis_entered", "1"); } catch (e) {}
+      try { sessionStorage.setItem("serena_entered", "1"); } catch (e) {}
       // The browser chrome was tinted to the envelope's navy so the film met the
       // screen edges; hand it back to the site's colour now that the site is here.
       try {
@@ -79,7 +79,7 @@
     const FILM_END = 7.0;
 
     let returning = false;
-    try { returning = sessionStorage.getItem("nevis_entered") === "1"; } catch (e) {}
+    try { returning = sessionStorage.getItem("serena_entered") === "1"; } catch (e) {}
 
     if (returning) {
       gate.classList.add("is-instant");
@@ -176,7 +176,7 @@
   function applyAudioPref() {
     if (!audioEl) return;
     let want = "on";
-    try { want = localStorage.getItem("nevis_audio") || "on"; } catch (e) {}
+    try { want = localStorage.getItem("serena_audio") || "on"; } catch (e) {}
     audioEl.muted = want === "off";
     isOn = !audioEl.muted;
     setAudioUI(isOn);
@@ -196,19 +196,18 @@
       const p = audioEl.play(); if (p && p.catch) p.catch(function () {});
     }
     isOn = true; setAudioUI(true);
-    try { localStorage.setItem("nevis_audio", "on"); } catch (e) {}
+    try { localStorage.setItem("serena_audio", "on"); } catch (e) {}
   }
 
   function scoreOff() {
     if (!audioEl) return;
     audioEl.muted = true;
     isOn = false; setAudioUI(false);
-    try { localStorage.setItem("nevis_audio", "off"); } catch (e) {}
+    try { localStorage.setItem("serena_audio", "off"); } catch (e) {}
   }
 
   // ---- looping the score ----------------------------------------------------
-  // The couple asked for the music to keep playing rather than stop after one
-  // pass. The score is baked into the film: envelope sound for the first ~5s,
+  // The music should keep playing rather than stop after one pass. The score is baked into the film: envelope sound for the first ~5s,
   // the music settled by 7s, and a deliberate fade-out from ~61.3s to the end
   // at 65.16s. Looping the element itself would replay the envelope sound, and
   // running to the end would fade to silence and then lurch back in — so it
@@ -355,8 +354,8 @@
       const cd = $("#countdown");
       if (!cd || cd.dataset.started) return;
       cd.dataset.started = "1";
-      // Ceremony: Friday, 7 May 2027, 5:00 PM Atlantic Standard Time (UTC−04:00).
-      const target = new Date("2027-05-07T17:00:00-04:00").getTime();
+      // Ceremony: Friday, 11 June 2027, 5:00 PM Atlantic Standard Time (UTC−04:00).
+      const target = new Date("2027-06-11T17:00:00-04:00").getTime();
       const dEl = cd.querySelector('[data-cd="days"]');
       const hEl = cd.querySelector('[data-cd="hours"]');
       const mEl = cd.querySelector('[data-cd="mins"]');
@@ -496,7 +495,7 @@
     // Read outside the form block — the public list is gated on whether this
     // device has already replied, and that check has to work with no form present.
     const savedReply = function () {
-      try { return JSON.parse(localStorage.getItem("nevis_my_rsvp") || "null"); } catch (x) { return null; }
+      try { return JSON.parse(localStorage.getItem("serena_my_rsvp") || "null"); } catch (x) { return null; }
     };
     const hasReplied = function () { const m = savedReply(); return !!(m && m.email); };
 
@@ -524,7 +523,7 @@
         redirect: "follow",
       }).then((r) => r.json());
     }
-    const LS_KEY = "nevis_rsvps_v2";
+    const LS_KEY = "serena_rsvps_v2";
     const lsAll = () => { try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); } catch (e) { return []; } };
     // Demo seed: a fictional guest list so the public "who's coming" list and the
     // Hosts panel have something to show on a first visit. Entirely made up.
@@ -690,7 +689,7 @@
         // The endpoint answers 200 even when it refuses the write, so a reply could
         // be lost while the guest was told "Received with love". Trust res.ok only.
         if (res && res.ok === false) throw new Error(res.error || "not saved");
-        try { localStorage.setItem("nevis_my_rsvp", JSON.stringify(rec)); } catch (x) {}
+        try { localStorage.setItem("serena_my_rsvp", JSON.stringify(rec)); } catch (x) {}
         statusEl.textContent = "";
         showThanks(rec);
         loadGuestList();

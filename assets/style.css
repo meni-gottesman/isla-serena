@@ -1,6 +1,6 @@
 /* ============================================================================
-   THE ASHFORD WEDDING — Julian & Mara · Nevis, West Indies · May 2027
-   Theme from the couple’s Lovable project: warm ivory / ink editorial palette
+   THE ASHFORD WEDDING — Julian & Mara · Isla Serena, West Indies · June 2027
+   Theme: warm ivory / ink editorial palette
    with a quiet Caribbean-blue (ocean) accent, Cormorant Garamond + Jost, crisp
    corners, locked to a single light identity, reduced-motion + print aware.
    Signature moments: an envelope-opening gate, a masked hero name reveal, subtle
@@ -10,8 +10,8 @@
 :root {
   /* --- Core editorial palette — a dark "Caribbean night" identity ---
      Deep warm near-black grounds, warm ivory type, a brightened ocean accent for
-     contrast on dark. (The couple asked to move from the original ivory/ink light
-     theme to dark.) --ivory stays the LIGHT token — type, and the "in black" copy. */
+     contrast on dark. (Moved from an ivory/ink light theme to dark
+     during design.) --ivory stays the LIGHT token — type, and the "in black" copy. */
   --ivory:     #f1ebdf;
   --soft:      #211d18;   /* elevated dark surface — alt sections, hovers */
   --ink:       #14110e;   /* the darkest panel — the dress field, heart faces, lightbox */
@@ -996,7 +996,7 @@ body.entered .hero__date { opacity: 1; transform: translateY(0); }
 .cal__fine { display: block; margin-top: 0.45rem; font-size: 0.86em; color: var(--muted-fg); }
 
 /* --- Dress-code lookbook (/details/#dress) -------------------------------
-   Mara sent two collage screenshots; each look is cut out of them and
+   Each look is its own cut-out and
    shown as its own card so the section reads as a lookbook rather than two
    pasted screenshots. The cards keep the boards' own pale backdrop — black
    eveningwear on a dark section would otherwise disappear — and tapping any

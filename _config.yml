@@ -1,7 +1,7 @@
 # GitHub Pages build config.
 #
 # Sole purpose: keep internal files out of the PUBLISHED site. They stay in the
-# repo, they just stop being fetchable from meni-gottesman.github.io/nevis-affair — which
+# repo, they just stop being fetchable from meni-gottesman.github.io/isla-serena — which
 # matters because that domain is printed on the invitations, and README.md
 # documents the hosts password and internal to-dos.
 #

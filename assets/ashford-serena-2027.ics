@@ -1,0 +1,79 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//The Ashford Wedding//Isla Serena 2027//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Julian & Mara — Isla Serena 2027
+BEGIN:VTIMEZONE
+TZID:America/Antigua
+BEGIN:STANDARD
+DTSTART:19700101T000000
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0400
+TZNAME:AST
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:weekend-2027@isla-serena.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;VALUE=DATE:20270610
+DTEND;VALUE=DATE:20270615
+SUMMARY:Julian & Mara's Wedding — Isla Serena
+DESCRIPTION:The Ashford wedding at The Aurelia\, Isla Serena.\nArrive Thurs
+ day June 10 (check-in 3:00 PM) — depart Monday June 14 (check-out noon).
+ \nFly into Port Lucía (SRN). US passport required.\nAll the details: http
+ s://meni-gottesman.github.io/isla-serena/
+URL:https://meni-gottesman.github.io/isla-serena/
+TRANSP:TRANSPARENT
+LOCATION:The Aurelia\, Marisol Beach\, Port Lucía\, Isla Serena\, West Ind
+ ies
+END:VEVENT
+BEGIN:VEVENT
+UID:ceremony-2027@isla-serena.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;TZID=America/Antigua:20270611T170000
+DTEND;TZID=America/Antigua:20270611T220000
+SUMMARY:The Ceremony — Julian & Mara
+DESCRIPTION:5:00 PM island time (AST) — your calendar shows this in your 
+ local time zone until you land.\nVows on the Sunset Lawn\, with cocktails 
+ and dinner to follow.\nDress: your best in black evening wear.\nhttps://me
+ ni-gottesman.github.io/isla-serena/
+URL:https://meni-gottesman.github.io/isla-serena/
+TRANSP:OPAQUE
+LOCATION:Sunset Lawn\, The Aurelia\, Marisol Beach\, Port Lucía\, Isla Ser
+ ena\, West Indies
+END:VEVENT
+BEGIN:VEVENT
+UID:deposit-due@isla-serena.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:Room deposit due — Ashford wedding
+DESCRIPTION:Deposit due to hold your room in the Reyes–Ashford Celebratio
+ n block.\nThe Aurelia\, Isla Serena reservations: (555) 010-0170.\nhttps:/
+ /meni-gottesman.github.io/isla-serena/
+URL:https://meni-gottesman.github.io/isla-serena/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-P7D
+DESCRIPTION:Room deposit due — Ashford wedding
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:balance-due@isla-serena.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;VALUE=DATE:20270301
+DTEND;VALUE=DATE:20270302
+SUMMARY:Room balance due — Ashford wedding
+DESCRIPTION:Balance due in full for the Aurelia\, Isla Serena room block.\n
+ https://meni-gottesman.github.io/isla-serena/
+URL:https://meni-gottesman.github.io/isla-serena/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-P7D
+DESCRIPTION:Room balance due — Ashford wedding
+END:VALARM
+END:VEVENT
+END:VCALENDAR

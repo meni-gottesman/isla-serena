@@ -1,13 +1,13 @@
-# Nevis Affair — a destination-wedding website
+# Isla Serena — a destination-wedding website
 
 An editorial, cinematic wedding site: an opening film you tap to open, a
 score that carries through the visit, a lookbook dress code, a working RSVP
 with a public guest list, and a password-gated Hosts panel for the couple.
 
-**Live:** https://meni-gottesman.github.io/nevis-affair/
+**Live:** https://meni-gottesman.github.io/isla-serena/
 
-> This is a portfolio copy. The couple, the guests, the contacts and the
-> registry are fictional, and the RSVP is disconnected — replies stay in your
+> This is a portfolio copy. The couple, the resort, the island, the dates,
+> the guests, the contacts and the registry are all fictional, and the RSVP is disconnected — replies stay in your
 > own browser and go nowhere. The photography is used with permission.
 
 ## What's in it
@@ -42,8 +42,8 @@ seeded fictional guest list.
 
 ## Running it
 
-It's a static site under a `/nevis-affair/` base path, so serve the *parent*
-directory and open `http://localhost:8000/nevis-affair/`:
+It's a static site under a `/isla-serena/` base path, so serve the *parent*
+directory and open `http://localhost:8000/isla-serena/`:
 
 ```bash
 cd .. && python3 -m http.server 8000
