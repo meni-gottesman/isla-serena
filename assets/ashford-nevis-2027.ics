@@ -1,0 +1,79 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//The Ashford Wedding//Nevis 2027//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Julian & Mara — Nevis 2027
+BEGIN:VTIMEZONE
+TZID:America/St_Kitts
+BEGIN:STANDARD
+DTSTART:19700101T000000
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0400
+TZNAME:AST
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:weekend-2027@nevis-affair.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;VALUE=DATE:20270506
+DTEND;VALUE=DATE:20270511
+SUMMARY:Julian & Mara's Wedding — Nevis
+DESCRIPTION:The Ashford wedding at the Four Seasons Resort Nevis.\nArrive T
+ hursday May 6 (check-in 3:00 PM) — depart Monday May 10 (check-out noon)
+ .\nFly into St. Kitts (SKB). US passport required.\nAll the details: https
+ ://meni-gottesman.github.io/nevis-affair/
+URL:https://meni-gottesman.github.io/nevis-affair/
+TRANSP:TRANSPARENT
+LOCATION:Four Seasons Resort Nevis\, Pinney's Beach\, Charlestown\, Nevis\,
+  West Indies
+END:VEVENT
+BEGIN:VEVENT
+UID:ceremony-2027@nevis-affair.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;TZID=America/St_Kitts:20270507T170000
+DTEND;TZID=America/St_Kitts:20270507T220000
+SUMMARY:The Ceremony — Julian & Mara
+DESCRIPTION:5:00 PM Nevis time (AST) — your calendar shows this in your l
+ ocal time zone until you land.\nVows on the Oceanfront 18th Lawn\, with co
+ cktails and dinner to follow.\nDress: your best in black evening wear.\nht
+ tps://meni-gottesman.github.io/nevis-affair/
+URL:https://meni-gottesman.github.io/nevis-affair/
+TRANSP:OPAQUE
+LOCATION:Oceanfront 18th Lawn\, Four Seasons Resort Nevis\, Pinney's Beach\
+ , Charlestown\, Nevis\, West Indies
+END:VEVENT
+BEGIN:VEVENT
+UID:deposit-due@nevis-affair.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Room deposit due — Ashford wedding
+DESCRIPTION:Deposit due to hold your room in the Reyes–Ashford Celebratio
+ n block.\nFour Seasons Nevis reservations: (555) 010-0170.\nhttps://meni-g
+ ottesman.github.io/nevis-affair/
+URL:https://meni-gottesman.github.io/nevis-affair/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-P7D
+DESCRIPTION:Room deposit due — Ashford wedding
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:balance-due@nevis-affair.meni-gottesman.github.io
+DTSTAMP:20260711T120000Z
+DTSTART;VALUE=DATE:20270201
+DTEND;VALUE=DATE:20270202
+SUMMARY:Room balance due — Ashford wedding
+DESCRIPTION:Balance due in full for the Four Seasons Nevis room block.\nhtt
+ ps://meni-gottesman.github.io/nevis-affair/
+URL:https://meni-gottesman.github.io/nevis-affair/
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-P7D
+DESCRIPTION:Room balance due — Ashford wedding
+END:VALARM
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,1057 @@
+/* ============================================================================
+   THE ASHFORD WEDDING — Julian & Mara · Nevis, West Indies · May 2027
+   Theme from the couple’s Lovable project: warm ivory / ink editorial palette
+   with a quiet Caribbean-blue (ocean) accent, Cormorant Garamond + Jost, crisp
+   corners, locked to a single light identity, reduced-motion + print aware.
+   Signature moments: an envelope-opening gate, a masked hero name reveal, subtle
+   hero parallax, real engagement photography with a lightbox, countdown, RSVP.
+   ========================================================================== */
+
+:root {
+  /* --- Core editorial palette — a dark "Caribbean night" identity ---
+     Deep warm near-black grounds, warm ivory type, a brightened ocean accent for
+     contrast on dark. (The couple asked to move from the original ivory/ink light
+     theme to dark.) --ivory stays the LIGHT token — type, and the "in black" copy. */
+  --ivory:     #f1ebdf;
+  --soft:      #211d18;   /* elevated dark surface — alt sections, hovers */
+  --ink:       #14110e;   /* the darkest panel — the dress field, heart faces, lightbox */
+  --charcoal:  #cabfae;   /* dimmed light, for body copy on dark */
+  --ocean:     oklch(0.40 0.072 232);
+  --turquoise: #82c7cf;   /* brightened — the "in black" accent + the ampersand */
+  --palm:      #8fb89a;
+  --border:    #38322b;   /* a quiet hairline on dark */
+  --muted-fg:  #9a9181;   /* dim labels */
+
+  --bg: #191512;          /* page ground (matches theme-color) */
+  --fg: var(--ivory);
+  --accent: #6fb3c4;      /* brightened ocean/turquoise — eyebrows, links, heart values */
+  /* Crisp editorial corners; the pill button and round audio control opt back in. */
+  --radius: 0px;
+
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --maxw: 1240px;
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+  --eyebrow-spacing: 0.42em;
+
+  /* Hero photograph — swap the file in assets/ to change it. */
+  --hero-photo: url("hero.jpg");
+}
+@media (max-width: 760px) { :root { --hero-photo: url("hero-m.jpg"); } }
+
+/* A wedding invitation is a fixed identity — it should look the same in every
+   guest’s hand. A single dark identity (no light/dark toggle), warm and editorial. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(1.08rem, 0.5vw + 0.98rem, 1.22rem);
+  line-height: 1.72;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* When the envelope gate is active, lock scroll */
+/* While the gate is up, the page's own background is what iOS Safari samples to
+   paint its status-bar and toolbar strips — with the site's #191512 the film sat
+   between two dark bands. Use the envelope's navy (midway between the film's top
+   edge #20314a and its bottom edge #0e1b2b) so the screen reads as one envelope.
+   Reverts the moment .is-sealed comes off. */
+body.is-sealed { overflow: hidden; height: 100vh; height: 100dvh; background: #17263a; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+
+::selection { background: color-mix(in oklch, var(--accent) 22%, transparent); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* Skip-target containers receive programmatic focus silently (no ring). */
+[tabindex="-1"]:focus { outline: none; }
+
+/* --- Typography primitives --------------------------------------------- */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(0.66rem, 0.4vw + 0.58rem, 0.74rem);
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-spacing);
+  /* The one colour the couple was sure of — a quiet Caribbean-blue spine. */
+  color: var(--accent);
+  margin: 0 0 1.4rem;
+}
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.amp {
+  font-style: italic;
+  font-weight: 400;
+  font-family: var(--font-display);
+}
+.lede {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 2.2vw + 0.8rem, 2.35rem);
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+}
+
+/* --- Layout ------------------------------------------------------------- */
+.section {
+  position: relative;
+  padding-block: clamp(5rem, 11vw, 11rem);
+  padding-inline: var(--gutter);
+}
+.wrap { max-width: var(--maxw); margin-inline: auto; }
+.narrow { max-width: 760px; margin-inline: auto; }
+
+.rule {
+  width: 1px; height: clamp(48px, 8vh, 96px);
+  margin: 0 auto;
+  background: linear-gradient(var(--border), transparent);
+}
+.ornament {
+  display: flex; align-items: center; gap: 1.1rem;
+  color: color-mix(in oklch, var(--accent) 70%, var(--muted-fg));
+  justify-content: center;
+}
+.ornament::before, .ornament::after {
+  content: ""; height: 1px; width: clamp(40px, 18vw, 120px);
+  background: linear-gradient(to var(--orn-dir, right), transparent, color-mix(in oklch, var(--accent) 45%, var(--border)));
+}
+.ornament::after { --orn-dir: left; }
+.ornament span { font-family: var(--font-display); font-size: 1.2rem; line-height: 1; }
+
+/* ============================================================================
+   ENVELOPE GATE
+   ========================================================================== */
+/* A full-screen, fully opaque takeover: the couple's own wax-sealed "J&M"
+   envelope opens on film, on an ivory field matched to the video, then
+   dissolves to reveal the hero. Nothing shows behind it. */
+.gate {
+  position: fixed; inset: 0; z-index: 300;
+  overflow: hidden;
+  background: #ffffff; /* the film blooms to white; the gate then fades from white to the site */
+  transition: opacity 1.4s ease;
+  /* iPhone: while Safari's toolbars are showing, the layout viewport is SHORTER
+     than the screen, which left the film short of the bottom. Take the LARGEST
+     viewport so it covers in every toolbar state (the film is object-fit:cover,
+     so the extra is simply cropped). Ordered oldest-to-newest — each line only
+     overrides the one above where supported. */
+  height: 100vh;
+  height: -webkit-fill-available;
+  height: 100lvh;
+}
+.gate__video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  /* Fill the screen edge to edge on every device; the source is landscape, so on
+     a portrait phone this crops to the centre of the envelope by design. */
+  object-fit: cover; object-position: 50% 50%; background: #ffffff;
+}
+/* The poster is landscape too — make sure Safari crops it the same way as the
+   film rather than letterboxing it before the tap. */
+.gate__video[poster] { object-fit: cover; }
+.gate.is-open { opacity: 0; pointer-events: none; }
+/* The film carries the score, so it must keep playing after the gate opens —
+   and iOS won't play a media element that is display:none or visibility:hidden.
+   So once the overlay has faded (JS adds .is-done ~1.6s later) we collapse it to
+   a 1px sliver behind the page instead of hiding it. */
+.gate.is-done { inset: auto auto 0 0; width: 1px; height: 1px; z-index: -1; }
+.gate.is-instant, .gate.is-instant * { transition: none !important; }
+
+.gate__hint {
+  position: absolute; left: 0; right: 0; top: 30%;
+  z-index: 2; margin: 0; text-align: center;
+  font-family: var(--font-sans); font-weight: 400; text-transform: uppercase;
+  letter-spacing: 0.32em; text-indent: 0.32em; font-size: clamp(0.72rem, 2.8vw, 0.86rem);
+  /* Light, for legibility on the dark navy envelope (the film blooms to white,
+     and the hint has already faded by then). */
+  color: color-mix(in oklch, var(--ivory) 88%, transparent);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+  transition: opacity .3s ease; /* fades away quickly once the film starts */
+  animation: tap-pulse 2.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+/* a slow grow/shrink to catch the eye */
+@keyframes tap-pulse {
+  0%, 100% { transform: scale(0.96); opacity: 0.72; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+.gate.is-playing .gate__hint { opacity: 0; animation: none; }
+
+/* ---- Page brighten-in: the site fades up as the gate lifts (and on sub-pages,
+   on load), so the reveal is a soft brightening rather than a hard cut. ---- */
+main, .closing, .colophon, .site-header { opacity: 0; transition: opacity 1.5s ease .12s; }
+body.entered main, body.entered .closing, body.entered .colophon, body.entered .site-header { opacity: 1; }
+
+/* ============================================================================
+   PRIVATE ACCESS GATE (password screen — sits above everything)
+   ========================================================================== */
+.lockscreen {
+  position: fixed; inset: 0; z-index: 500;
+  background: var(--bg);
+  display: grid; place-items: center;
+  padding: clamp(1.5rem, 6vw, 4rem);
+  overflow-y: auto;
+}
+.lockscreen__inner { width: 100%; max-width: 30rem; text-align: center; margin: auto; }
+.lockscreen__eyebrow { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.34em; text-indent: 0.34em; font-size: 0.72rem; color: var(--accent); margin: 0 0 1rem; }
+.lockscreen__title { font-size: clamp(2.4rem, 9vw, 3.6rem); color: var(--fg); margin: 0 0 2rem; }
+.lockscreen__form { display: grid; gap: 0.9rem; }
+.lockscreen__label { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.68rem; color: var(--muted-fg); }
+.lockscreen__input { font-family: var(--font-display); font-size: 1.3rem; text-align: center; color: var(--fg); background: var(--soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; width: 100%; }
+.lockscreen__input:focus { border-color: var(--accent); outline: none; }
+.lockscreen__btn { justify-self: center; margin-top: 0.4rem; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.74rem; background: var(--ivory); color: var(--ink); border: 1px solid var(--ivory); padding: 0.95rem 2.6rem; border-radius: 999px; transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease; }
+.lockscreen__btn:hover:not(:disabled) { transform: translateY(-2px); background: var(--accent); border-color: var(--accent); }
+.lockscreen__btn:disabled { opacity: 0.5; cursor: default; }
+.lockscreen__error { min-height: 1.2em; margin: 0.2rem 0 0; font-family: var(--font-sans); font-size: 0.85rem; color: #d98a8a; }
+.lockscreen__legal { margin: 2.4rem auto 0; max-width: 34ch; font-family: var(--font-sans); font-size: 0.78rem; line-height: 1.6; color: var(--muted-fg); }
+.lockscreen__legal strong { color: color-mix(in oklch, var(--fg) 82%, transparent); font-weight: 500; }
+
+/* ============================================================================
+   DRESS CODE — the "your best in black" statement
+   ========================================================================== */
+.dress-stage {
+  position: relative;
+  text-align: center;
+  border: 1px solid color-mix(in oklch, var(--ivory) 15%, transparent);
+  padding: clamp(2.8rem, 8vw, 5.5rem) clamp(1.4rem, 6vw, 4rem);
+}
+.dress-stage::before, .dress-stage::after {
+  content: ""; position: absolute; width: 34px; height: 34px;
+  border: 1px solid var(--turquoise); opacity: 0.65;
+}
+.dress-stage::before { top: 14px; left: 14px;  border-width: 1px 0 0 1px; }
+.dress-stage::after  { bottom: 14px; right: 14px; border-width: 0 1px 1px 0; }
+.dress-big {
+  font-size: clamp(2.8rem, 11vw, 6.4rem);
+  line-height: 0.98; margin-top: 1.3rem;
+}
+.dress-big em { font-style: italic; color: var(--turquoise); }
+.dress-lede {
+  color: color-mix(in oklch, var(--ivory) 82%, transparent);
+  margin: 1.7rem auto 0; max-width: 36ch;
+}
+
+/* ============================================================================
+   AUDIO TOGGLE
+   ========================================================================== */
+.audio-toggle {
+  position: fixed; z-index: 120;
+  right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem);
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid var(--border);
+  background: color-mix(in oklch, var(--bg) 78%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  display: grid; place-items: center;
+  color: var(--fg);
+  transition: transform .3s ease, border-color .3s ease, background .3s ease, opacity .3s ease;
+}
+/* A quiet, one-time ring to make the (off-by-default) sound control discoverable. */
+.audio-toggle::after {
+  content: ""; position: absolute; inset: -5px; border-radius: 50%;
+  border: 1px solid var(--accent); opacity: 0; pointer-events: none;
+}
+body.entered .audio-toggle.is-muted::after { animation: audioHint 2.4s ease-out 1s 3; }
+@keyframes audioHint { 0% { opacity: .5; transform: scale(.82); } 70% { opacity: 0; transform: scale(1.3); } 100% { opacity: 0; } }
+/* Keep the floating audio control from overlapping / sitting above the open menu. */
+body.menu-open .audio-toggle { opacity: 0; pointer-events: none; }
+.audio-toggle:hover { transform: scale(1.06); border-color: var(--accent); }
+.audio-toggle .bars { display: flex; align-items: flex-end; gap: 2.5px; height: 16px; }
+.audio-toggle .bars i {
+  width: 2.5px; background: currentColor; height: 40%;
+  transform-origin: bottom;
+}
+.audio-toggle.is-playing .bars i { animation: eq 1s ease-in-out infinite; }
+.audio-toggle .bars i:nth-child(1){ animation-delay: -.1s }
+.audio-toggle .bars i:nth-child(2){ animation-delay: -.45s }
+.audio-toggle .bars i:nth-child(3){ animation-delay: -.25s }
+.audio-toggle .bars i:nth-child(4){ animation-delay: -.6s }
+.audio-toggle.is-muted .bars i { height: 30% !important; opacity: .5; }
+@keyframes eq { 0%,100%{ height: 30% } 50%{ height: 100% } }
+
+/* ============================================================================
+   HEADER / NAV
+   ========================================================================== */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: clamp(1.1rem, 2.5vw, 1.8rem) var(--gutter);
+  mix-blend-mode: normal;
+  transition: background .4s ease, color .4s ease, box-shadow .4s ease;
+}
+/* Added to the Home Screen, the site runs with no browser chrome at all and the
+   page extends under the clock (status-bar-style black-translucent). Push the
+   header below the notch so the wordmark never collides with it. */
+@media (display-mode: standalone) {
+  .site-header { padding-top: calc(clamp(1.1rem, 2.5vw, 1.8rem) + env(safe-area-inset-top)); }
+  .pagehead { padding-top: env(safe-area-inset-top); }
+}
+.site-header.on-hero { color: #f6eddc; }
+.site-header.scrolled {
+  background: color-mix(in oklch, var(--bg) 86%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: var(--fg);
+  box-shadow: 0 1px 0 var(--border);
+}
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.4rem; letter-spacing: 0.18em;
+  text-decoration: none; line-height: 1;
+}
+.brand .amp { letter-spacing: 0; }
+.site-header__right { display: inline-flex; align-items: center; gap: clamp(1.1rem, 3vw, 2rem); }
+.header-rsvp {
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.28em;
+  font-size: 0.62rem; text-decoration: none; color: inherit;
+  padding: 0.6rem 0; position: relative;
+}
+.header-rsvp::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0.45rem; height: 1px; background: currentColor; opacity: .4; transition: opacity .3s ease; }
+.header-rsvp:hover::after { opacity: 1; }
+.nav-toggle {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  background: none; border: none; color: inherit;
+  text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.62rem;
+  min-height: 44px;
+}
+.nav-toggle .lines { display: inline-block; width: 26px; height: 9px; position: relative; }
+.nav-toggle .lines::before, .nav-toggle .lines::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 1px; background: currentColor;
+  transition: transform .35s ease, top .35s ease;
+}
+.nav-toggle .lines::before { top: 0; }
+.nav-toggle .lines::after { top: 8px; }
+
+/* full-screen menu overlay */
+.menu {
+  position: fixed; inset: 0; z-index: 110;
+  background: color-mix(in oklch, var(--bg) 97%, var(--charcoal));
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding: clamp(1.1rem, 2.5vw, 1.8rem) var(--gutter) clamp(2rem, 5vw, 3rem);
+  opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility .5s ease;
+}
+.menu.is-open { opacity: 1; visibility: visible; }
+.menu__top { display: flex; align-items: center; justify-content: space-between; }
+.menu__close {
+  background: none; border: none; color: var(--fg);
+  text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.62rem;
+}
+.menu__nav { align-self: center; display: flex; flex-direction: column; gap: clamp(.25rem,1vh,.8rem); max-height: 100%; overflow-y: auto; }
+.menu__nav a {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 6vw, 3.6rem);
+  font-weight: 300; line-height: 1.12; letter-spacing: -0.01em;
+  text-decoration: none; color: var(--fg);
+  display: inline-flex; align-items: baseline; gap: 1.2rem;
+  width: fit-content;
+  transition: color .3s ease, padding-left .4s ease;
+  opacity: 0; transform: translateY(14px);
+}
+.menu.is-open .menu__nav a { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1), color .3s; }
+.menu.is-open .menu__nav a:nth-child(1){ transition-delay: .06s }
+.menu.is-open .menu__nav a:nth-child(2){ transition-delay: .10s }
+.menu.is-open .menu__nav a:nth-child(3){ transition-delay: .14s }
+.menu.is-open .menu__nav a:nth-child(4){ transition-delay: .18s }
+.menu.is-open .menu__nav a:nth-child(5){ transition-delay: .22s }
+.menu.is-open .menu__nav a:nth-child(6){ transition-delay: .26s }
+.menu.is-open .menu__nav a:nth-child(7){ transition-delay: .30s }
+.menu.is-open .menu__nav a:nth-child(8){ transition-delay: .34s }
+.menu.is-open .menu__nav a:nth-child(9){ transition-delay: .38s }
+.menu__nav a .idx { font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted-fg); transform: translateY(-0.6em); }
+.menu__nav a:hover { color: var(--accent); padding-left: 0.6rem; }
+/* Section anchors under "Details" read as children — smaller, dimmer, indented. */
+.menu__nav a .idx.sub { color: color-mix(in oklch, var(--muted-fg) 55%, transparent); letter-spacing: 0; transform: translateY(-0.4em); }
+.menu__nav a:has(.idx.sub) { font-size: clamp(1.15rem, 4vw, 2.1rem); color: color-mix(in oklch, var(--fg) 76%, transparent); padding-left: clamp(1rem, 4vw, 2.2rem); gap: 0.9rem; }
+.menu__nav a:has(.idx.sub):hover { color: var(--accent); }
+.menu__foot { display: flex; flex-wrap: wrap; gap: .4rem 2rem; justify-content: space-between; color: var(--muted-fg); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; }
+
+/* ============================================================================
+   HERO
+   ========================================================================== */
+.hero {
+  /* The hero sits on a fixed cinematic image (the couple on the bow, a dolphin
+     surfacing). Type anchors to the LOWER THIRD, over the open water, so the two
+     of them — and the dolphin below — own the frame above it. */
+  --hero-fg: #f5ecdb;
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: grid; align-items: end;
+  padding: 0 var(--gutter) clamp(5.5rem, 15vh, 9rem);
+  overflow: hidden;
+  color: var(--hero-fg);
+  isolation: isolate;
+}
+/* parallax layer (translated on scroll) holds the slow-zoom photo */
+.hero__media { position: absolute; inset: -12% 0; z-index: -2; will-change: transform; background: #2b3a40; /* deep-water fallback if the photo is slow */ }
+/* object-position keeps the couple high-centre so the dolphin + lower water (where the
+   type sits) stay in frame on portrait; on landscape it crops to the couple + water. */
+.hero__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 52% 40%; transform-origin: 52% 42%; }
+/* As the page fades in FROM WHITE on reveal, the big photo zooms in a touch — slow,
+   front-loaded (most of the push happens during the white fade), then settles. */
+body.entered .hero__photo { animation: hero-reveal-zoom 14s cubic-bezier(.14,.6,.28,1) both; }
+@keyframes hero-reveal-zoom { from { transform: scale(1); } to { transform: scale(1.09); } }
+.kenburns { animation: kenburns 32s ease-in-out infinite alternate; transform-origin: 60% 50%; }
+@keyframes kenburns { from { transform: scale(1.02) } to { transform: scale(1.1) } }
+/* Darken only the bottom, where the restrained type sits; trust the photograph elsewhere. */
+.hero__wash {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(0deg, rgba(8,12,16,0.62) 0%, rgba(8,12,16,0.30) 22%, transparent 48%),
+    linear-gradient(180deg, rgba(8,12,16,0.22) 0%, transparent 16%);
+}
+.hero__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .38; pointer-events: none; mix-blend-mode: soft-light; }
+
+.hero__content { position: relative; z-index: 2; text-align: center; max-width: 1100px; margin-inline: auto; width: 100%; }
+.hero__eyebrow { color: color-mix(in oklch, var(--hero-fg) 82%, transparent); }
+/* The couple's names ARE the hero line — "Julian & Mara". The surname lives in
+   the header, the closing and the colophon, so it isn't repeated giant over the photo. */
+.hero__names {
+  color: var(--hero-fg);
+  font-weight: 300;
+  font-size: clamp(2.3rem, 7.5vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 26px rgba(7,11,15,0.55);
+}
+/* The line slides up from behind a mask on entry — the gate→hero handoff. */
+.hero__name { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.14em 0.14em 0.22em; margin: -0.14em -0.14em -0.22em; }
+.hero__name > span { display: inline-block; transform: translateY(118%); transition: transform 1.2s cubic-bezier(.19,1,.22,1); }
+body.entered .hero__name > span { transform: translateY(0); }
+.hero__names .amp {
+  font-style: italic; font-size: 0.92em;
+  color: color-mix(in oklch, var(--hero-fg) 82%, var(--turquoise));
+}
+.hero__date {
+  margin-top: clamp(1.2rem, 3.4vh, 2rem);
+  font-family: var(--font-sans); font-weight: 300;
+  letter-spacing: 0.36em; text-indent: 0.36em; line-height: 2.1;
+  font-size: clamp(0.72rem, 1.2vw, 0.92rem);
+  color: color-mix(in oklch, var(--hero-fg) 90%, transparent);
+  opacity: 0; transform: translateY(0.5em);
+  transition: opacity .9s ease .5s, transform .9s ease .5s;
+}
+body.entered .hero__date { opacity: 1; transform: translateY(0); }
+.hero__cue {
+  position: absolute; left: 50%; bottom: clamp(1.6rem, 4vh, 3rem); translate: -50% 0;
+  z-index: 2; display: grid; justify-items: center; gap: 0.9rem;
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.36em;
+  font-size: 0.6rem; color: color-mix(in oklch, var(--hero-fg) 78%, transparent);
+  text-decoration: none;
+}
+.hero__cue .line { width: 1px; height: 54px; background: linear-gradient(color-mix(in oklch, var(--hero-fg) 65%, transparent), transparent); overflow: hidden; position: relative; }
+.hero__cue .line::after { content: ""; position: absolute; inset: 0; background: var(--hero-fg); animation: cue 2.4s ease-in-out infinite; }
+@keyframes cue { 0%{ transform: translateY(-100%) } 60%,100%{ transform: translateY(100%) } }
+
+/* ============================================================================
+   INVITATION / GENERIC EDITORIAL
+   ========================================================================== */
+.invite { text-align: center; }
+.invite .lede { margin: 0 auto; }
+.signature {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.6rem, 3vw, 2.4rem); margin-top: 2.4rem; color: var(--charcoal);
+}
+
+.editorial { display: grid; gap: clamp(2rem, 5vw, 4.5rem); grid-template-columns: 1fr; }
+.editorial__head { max-width: 18ch; }
+.editorial__title { font-size: clamp(2.4rem, 5.2vw, 4.4rem); }
+.editorial__body { color: var(--charcoal); }
+.editorial__body .lede { color: var(--fg); }
+@media (min-width: 880px) {
+  .editorial { grid-template-columns: 0.85fr 1.15fr; align-items: start; }
+  .editorial.reverse .editorial__head { order: 2; }
+}
+
+.cards { display: grid; gap: 1px; margin-top: clamp(2.5rem, 5vw, 4rem); background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+@media (min-width: 720px){ .cards.two { grid-template-columns: 1fr 1fr; } .cards.three { grid-template-columns: repeat(3,1fr); } }
+.card { background: var(--bg); padding: clamp(1.6rem, 3vw, 2.4rem); }
+.card h3 { font-family: var(--font-sans); font-weight: 400; text-transform: uppercase; letter-spacing: 0.24em; font-size: 0.74rem; color: var(--muted-fg); margin: 0 0 0.9rem; }
+.card p { margin: 0; color: var(--charcoal); }
+.card .card__meta { margin-top: 0.95rem; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.66rem; color: var(--muted-fg); }
+
+/* detail list (Stay) */
+.details { margin-top: clamp(2rem,4vw,3rem); border-top: 1px solid var(--border); }
+.details .row { display: grid; grid-template-columns: 1fr; gap: 0.2rem; padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
+.details .row dt { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.24em; font-size: 0.72rem; color: var(--muted-fg); }
+.details .row dd { margin: 0; font-family: var(--font-display); font-size: 1.45rem; overflow-wrap: anywhere; }
+@media (min-width: 640px){ .details .row { grid-template-columns: 0.5fr 1fr; align-items: baseline; } }
+
+/* Key facts — the emphasized Fly / When / Bring block atop the Details page. */
+.keyfacts { margin: 0; border: 1px solid var(--border); border-radius: var(--radius); padding: clamp(1.4rem, 3.5vw, 2.4rem) clamp(1.3rem, 4vw, 2.8rem); display: grid; gap: clamp(1.15rem, 2.5vw, 1.6rem); }
+.keyfacts .kf { display: grid; grid-template-columns: 1fr; gap: 0.3rem; }
+@media (min-width: 640px){ .keyfacts .kf { grid-template-columns: 0.32fr 1fr; align-items: baseline; } }
+.keyfacts .kf dt { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.24em; font-size: 0.72rem; color: var(--accent); }
+.keyfacts .kf dd { margin: 0; font-family: var(--font-display); font-weight: 300; font-size: clamp(1.25rem, 2.2vw, 1.55rem); line-height: 1.45; }
+.keyfacts .kf dd strong { font-weight: 500; }
+.fineprint { margin-top: 1.5rem; font-size: 0.95rem; line-height: 1.65; color: var(--charcoal); }
+
+/* A framed aside for a detail that is easy to misread — louder than .fineprint,
+   quieter than a heading. Used for what the room-block price does and doesn't cover. */
+.callout {
+  margin-top: 1.6rem;
+  padding: 1.05rem 1.35rem;
+  border-left: 2px solid var(--accent);
+  background: var(--soft);
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: var(--charcoal);
+}
+.callout strong { color: var(--fg); }
+
+/* ============================================================================
+   SAVE THE DATE — three hearts, scratched to reveal Day · Month · Year
+   ========================================================================== */
+.savedate { text-align: center; background: var(--soft); }
+.savedate__cue {
+  margin: clamp(1.2rem, 4vw, 2rem) 0 0; font-family: var(--font-sans); text-transform: uppercase;
+  letter-spacing: 0.3em; text-indent: 0.3em; font-size: 0.82rem; color: var(--accent);
+  transition: opacity .6s ease;
+}
+.hearts {
+  display: flex; justify-content: center; align-items: center; gap: clamp(10px, 3.5vw, 28px);
+  flex-wrap: nowrap; width: 100%; max-width: min(94vw, 680px); margin: clamp(1.8rem, 5vw, 3rem) auto 0;
+}
+/* Heart silhouette masks both the hidden value and the scratch cover above it.
+   flex:1 lets the three hearts grow to fill the row — bigger, harder to miss. */
+.heart {
+  position: relative; flex: 1 1 0; max-width: 200px; aspect-ratio: 1.1 / 1;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 185 C100 185, 200 125, 200 70 C200 23, 157 -10, 121.5 15 C100 31, 100 31, 100 31 C100 31, 100 31, 78.5 15 C43 -10, 0 23, 0 70 C0 125, 100 185, 100 185 Z' fill='black'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 185' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 185 C100 185, 200 125, 200 70 C200 23, 157 -10, 121.5 15 C100 31, 100 31, 100 31 C100 31, 100 31, 78.5 15 C43 -10, 0 23, 0 70 C0 125, 100 185, 100 185 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  background: var(--ink);
+}
+.heart__under {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px; background: var(--ink);
+}
+.heart__label {
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.2em;
+  font-size: 0.64rem; color: var(--muted-fg);
+}
+.heart__value {
+  font-family: var(--font-display); font-weight: 500; line-height: 1;
+  font-size: clamp(1.8rem, 7vw, 2.8rem); color: var(--accent);
+}
+.heart__cover {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2;
+  cursor: crosshair; touch-action: none;
+  transition: opacity .9s ease;
+}
+.heart__cover.is-cleared { opacity: 0; pointer-events: none; }
+/* once all three are open, the hearts breathe gently */
+.hearts.unlocked .heart { animation: heart-beat 3s ease-in-out infinite; }
+.hearts.unlocked .heart:nth-child(2) { animation-delay: .3s; }
+.hearts.unlocked .heart:nth-child(3) { animation-delay: .6s; }
+@keyframes heart-beat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+.savedate__revealed {
+  margin: clamp(2rem, 5vw, 3rem) auto 0;
+  opacity: 0; transform: translateY(12px); transition: opacity 1.1s ease, transform 1.1s ease;
+}
+.savedate__revealed.revealed { opacity: 1; transform: translateY(0); }
+.savedate__line {
+  margin: 0 auto; max-width: 30ch;
+  font-family: var(--font-display); font-style: italic; font-weight: 300;
+  font-size: clamp(1.55rem, 5vw, 2.3rem); line-height: 1.32; color: var(--fg);
+}
+/* Countdown — appears with the reveal (the date is already uncovered by then). */
+.countdown { display: flex; flex-wrap: wrap; gap: clamp(1.4rem, 6vw, 3.2rem); justify-content: center; margin-top: clamp(1.8rem, 5vw, 2.8rem); }
+.count { display: grid; gap: 0.5rem; min-width: 64px; }
+.count b { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1; font-variant-numeric: tabular-nums; color: var(--fg); }
+.count span { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.62rem; color: var(--muted-fg); }
+
+/* ============================================================================
+   ITINERARY (timeline)
+   ========================================================================== */
+.timeline { margin-top: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--border); }
+.event {
+  display: grid; gap: 0.4rem 2.5rem; grid-template-columns: 1fr;
+  padding: clamp(1.8rem, 3.5vw, 2.6rem) 0; border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+.event__day { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.24em; font-size: 0.74rem; color: var(--accent); }
+.event__title { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.05; }
+.event__time { font-family: var(--font-sans); letter-spacing: 0.16em; font-size: 0.84rem; color: var(--muted-fg); text-transform: uppercase; }
+.event__text { color: var(--charcoal); }
+@media (min-width: 860px){
+  .event { grid-template-columns: 0.7fr 1.5fr 0.8fr; }
+  .event__time { text-align: right; }
+}
+
+/* ============================================================================
+   GALLERY
+   ========================================================================== */
+/* Editorial masonry — every engagement photo shown uncropped. Mobile-first:
+   two columns on a phone, three on desktop. */
+.gallery-grid { columns: 2; column-gap: clamp(0.9rem, 2vw, 1.6rem); margin-top: clamp(2.5rem, 5vw, 4rem); }
+@media (min-width: 760px){ .gallery-grid { columns: 3; } }
+.tile {
+  break-inside: avoid; -webkit-column-break-inside: avoid;
+  margin: 0 0 clamp(0.9rem, 2vw, 1.6rem);
+  position: relative; overflow: hidden; border-radius: var(--radius);
+  /* warm placeholder so unloaded tiles aren’t dark holes on ivory */
+  background: color-mix(in oklch, var(--soft) 70%, var(--border));
+  cursor: zoom-in;
+}
+.tile .duo {
+  width: 100%; height: auto; display: block;
+  opacity: 0; transition: opacity 1s ease, transform 1.4s cubic-bezier(.2,.8,.2,1);
+}
+.tile .duo.loaded { opacity: 1; }
+.tile:hover .duo.loaded { transform: scale(1.03); }
+
+/* Lightbox — tap any photo to enlarge */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  background: color-mix(in oklch, var(--ink) 95%, black);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem);
+  opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s ease;
+  --lb-fg: #f5ecdb;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; }
+.lightbox__img {
+  max-width: min(94vw, 1100px); max-height: 86vh; width: auto; height: auto;
+  object-fit: contain; box-shadow: 0 40px 90px -30px rgba(0,0,0,.85);
+  transform: scale(.97); opacity: .4; transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .45s ease;
+}
+.lightbox.is-open .lightbox__img { transform: scale(1); opacity: 1; }
+.lightbox button { background: none; border: none; color: var(--lb-fg); cursor: pointer; }
+.lightbox__close {
+  position: absolute; top: clamp(1rem,3vw,1.8rem); right: clamp(1rem,3vw,1.8rem);
+  text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.62rem;
+  min-width: 44px; min-height: 44px; font-family: var(--font-sans);
+}
+.lightbox__nav {
+  position: absolute; top: 50%; translate: 0 -50%; z-index: 2;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: color-mix(in oklch, var(--ink) 55%, transparent);
+  font-family: var(--font-display); font-size: 2.2rem; line-height: 1;
+  opacity: .85; transition: opacity .3s ease, background .3s ease;
+}
+.lightbox__nav:hover { opacity: 1; background: color-mix(in oklch, var(--ink) 75%, transparent); }
+.lightbox__prev { left: clamp(0.3rem, 2vw, 1.5rem); }
+.lightbox__next { right: clamp(0.3rem, 2vw, 1.5rem); }
+.lightbox__count {
+  position: absolute; bottom: clamp(1rem,3vw,1.8rem); left: 50%; translate: -50% 0;
+  font-family: var(--font-sans); letter-spacing: 0.3em; font-size: 0.62rem; color: color-mix(in oklch, #f5ecdb 70%, transparent);
+}
+
+/* ============================================================================
+   REGISTRY
+   ========================================================================== */
+.registry-links { display: grid; gap: 1px; margin-top: clamp(2rem,4vw,3rem); background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
+@media (min-width: 640px){ .registry-links { grid-template-columns: 1fr 1fr; } }
+.registry-links a {
+  background: var(--bg); padding: clamp(1.6rem, 3vw, 2.4rem);
+  text-decoration: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  transition: background .3s ease, color .3s ease;
+}
+.registry-links a:hover { background: var(--soft); color: var(--accent); }
+.registry-links a .label { font-family: var(--font-display); font-size: 1.6rem; }
+.registry-links a .arrow { font-family: var(--font-sans); letter-spacing: 0.1em; transition: transform .3s ease; }
+.registry-links a:hover .arrow { transform: translateX(6px); }
+/* Shown until the registries are live — a quiet line, not a dead-looking button. */
+.registry-note {
+  margin-top: clamp(2rem, 4vw, 3rem); text-align: center;
+  font-family: var(--font-sans); text-transform: uppercase;
+  letter-spacing: 0.24em; text-indent: 0.24em; font-size: 0.72rem;
+  color: var(--muted-fg);
+}
+
+/* ============================================================================
+   RSVP
+   ========================================================================== */
+.rsvp { background: var(--soft); }
+.form { margin-top: clamp(2.5rem,5vw,3.5rem); display: grid; gap: clamp(1.4rem, 3vw, 2rem); }
+.field { display: grid; gap: 0.6rem; }
+.field > label, .field > legend {
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.24em;
+  font-size: 0.64rem; color: var(--muted-fg); padding: 0;
+}
+.field input[type=text], .field input[type=email], .field input[type=number], .field input[type=password], .field select, .field textarea {
+  font-family: var(--font-display); font-size: 1.2rem; color: var(--fg);
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.85rem 1rem; width: 100%; transition: border-color .25s ease;
+}
+.field textarea { font-family: var(--font-sans); font-size: 1rem; min-height: 110px; resize: vertical; line-height: 1.6; }
+.field input::placeholder, .field textarea::placeholder, .admin-bio-input::placeholder { color: var(--muted-fg); opacity: 1; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); outline: none; }
+.field fieldset { border: 0; margin: 0; padding: 0; }
+.choice-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.2rem; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.chip span {
+  display: inline-block; padding: 0.62rem 1.2rem; border: 1px solid var(--border); border-radius: 999px;
+  font-family: var(--font-sans); font-size: 0.9rem; letter-spacing: 0.04em; color: var(--charcoal);
+  transition: all .25s ease; user-select: none;
+}
+.chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chip input:checked + span { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.grid-2 { display: grid; gap: inherit; }
+@media (min-width: 640px){ .grid-2 { grid-template-columns: 1fr 1fr; } }
+.btn {
+  justify-self: start; margin-top: 0.6rem;
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.28em; font-size: 0.76rem;
+  background: var(--ivory); color: var(--ink); border: 1px solid var(--ivory);
+  padding: 1.05rem 2.6rem; border-radius: 999px;
+  transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
+}
+.btn:hover { transform: translateY(-2px); background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+.rsvp__thanks {
+  margin-top: 2rem; padding: clamp(1.8rem, 4vw, 3rem); text-align: center;
+  border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg);
+  display: none;
+}
+.rsvp__thanks.show { display: block; animation: rise .8s cubic-bezier(.2,.8,.2,1); }
+.rsvp__thanks .display { font-size: clamp(2rem, 4vw, 3rem); }
+@keyframes rise { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: none } }
+.collapsed { display: none; }
+#ifYes:not(.collapsed) { display: grid; gap: clamp(1.4rem, 3vw, 2rem); }
+.field__hint { margin: 0; font-size: 0.92rem; color: var(--muted-fg); line-height: 1.5; }
+/* Hints are deliberately dim; a bolded clause inside one (e.g. "everyone can see
+   this") has to lift out of that dimness or it reads as ordinary hint text. */
+.field__hint strong { color: var(--fg); font-weight: 500; }
+.form__status { margin: 0; font-size: 0.9rem; color: var(--charcoal); min-height: 1.2em; }
+
+/* link-style buttons (add guest, change reply, admin actions) */
+.link-btn {
+  justify-self: start; background: none; border: 0; padding: 0.3rem 0; cursor: pointer;
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.66rem;
+  color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .25s ease;
+}
+.link-btn:hover { border-bottom-color: var(--accent); }
+.link-btn--danger { color: #d98a8a; }
+.rsvp__thanks .link-btn { justify-self: center; margin-top: 1.4rem; color: var(--muted-fg); }
+
+/* companions (who's coming with you) */
+.companions { display: grid; gap: 0.6rem; }
+.companion { display: flex; gap: 0.6rem; align-items: center; }
+.companion__name { flex: 1; }
+.companion__remove {
+  flex: 0 0 auto; width: 40px; height: 40px; border: 1px solid var(--border); background: var(--bg);
+  border-radius: 999px; color: var(--muted-fg); font-size: 1.2rem; line-height: 1; cursor: pointer;
+}
+.companion__remove:hover { border-color: var(--accent); color: var(--accent); }
+
+/* RSVP photo + bio field (guest side) */
+.field__opt { color: var(--muted-fg); font-size: 0.85em; letter-spacing: 0; text-transform: none; }
+.photo-field { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.photo-field__btns { display: inline-flex; gap: 1rem; align-items: center; }
+.photo-preview { width: 68px; height: 68px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); display: block; background: color-mix(in oklch, var(--soft) 55%, var(--border)); }
+
+/* public guest list — who's coming */
+.guestlist { margin-top: clamp(3rem, 7vw, 5rem); border-top: 1px solid var(--border); padding-top: clamp(2.4rem, 5vw, 3.4rem); }
+.guestlist__count { font-size: clamp(1.8rem, 5vw, 2.8rem); text-align: center; margin: 0.6rem 0 0; }
+.guestlist__items { list-style: none; margin: clamp(1.6rem, 4vw, 2.4rem) 0 0; padding: 0; display: grid; gap: 0.1rem; max-width: 32rem; margin-inline: auto; }
+.guestlist__item { display: flex; align-items: center; gap: 0.95rem; padding: 0.9rem 0; border-bottom: 1px solid var(--border); }
+.guestlist__item .g-avatar { flex: 0 0 auto; width: 54px; height: 54px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: color-mix(in oklch, var(--soft) 55%, var(--border)); }
+.guestlist__item .g-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.guestlist__item .g-avatar--ph { font-family: var(--font-display); font-weight: 500; font-size: 1.25rem; color: var(--accent); }
+.guestlist__item .g-text { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; }
+.guestlist__item .g-name { font-family: var(--font-display); font-size: 1.45rem; line-height: 1.15; color: var(--fg); }
+.guestlist__item .g-meta { font-family: var(--font-sans); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted-fg); }
+.guestlist__item .g-bio { font-family: var(--font-display); font-style: italic; font-size: 1.02rem; line-height: 1.35; color: var(--charcoal); margin-top: 0.1rem; }
+.guestlist__empty { text-align: center; color: var(--muted-fg); font-style: italic; font-family: var(--font-display); font-size: 1.2rem; }
+/* Shown in place of the list until this device has replied. */
+.guestlist__locked { text-align: center; color: var(--muted-fg); font-style: italic; font-family: var(--font-display); font-size: 1.2rem; }
+
+/* hosts link (discreet, in the colophon) */
+.hosts-link { color: var(--muted-fg); text-decoration: none; opacity: 0.85; }
+.hosts-link:hover { opacity: 1; color: var(--accent); }
+
+/* hosts admin overlay */
+.admin { position: fixed; inset: 0; z-index: 360; background: var(--bg); overflow-y: auto; padding: clamp(3rem, 8vh, 6rem) var(--gutter); }
+/* On its own page (/hosts/) it is just the page content — not an overlay.
+   The site header is fixed, so the top padding has to clear it. */
+.admin--page { position: static; inset: auto; z-index: auto; overflow: visible; min-height: 70vh;
+               padding-top: clamp(7rem, 16vh, 11rem); padding-bottom: clamp(4rem, 10vh, 7rem); }
+.admin[hidden] { display: none; }
+.admin__inner { max-width: 720px; margin: 0 auto; position: relative; }
+.admin__close { position: absolute; top: -0.5rem; right: 0; background: none; border: 0; cursor: pointer; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.24em; font-size: 0.62rem; color: var(--muted-fg); }
+.admin__close:hover { color: var(--accent); }
+.admin__title { font-size: clamp(2rem, 5vw, 3rem); margin: 0.4rem 0 1.6rem; }
+.admin__gate { display: grid; gap: 1rem; max-width: 22rem; }
+.admin__gate[hidden] { display: none; }
+.admin__gate input { width: 100%; }
+.admin__summary { margin: 0 0 0.9rem; font-family: var(--font-sans); font-size: 0.68rem;
+                  letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-fg); }
+.admin__summary:empty { display: none; }
+.btn--ghost { margin: 0; background: none; color: var(--fg); border-color: var(--border); padding: 0.7rem 1.6rem; font-size: 0.68rem; }
+.btn--ghost:hover { background: var(--fg); color: var(--bg); transform: none; }
+/* --- Hosts: counts, tools, and the guest cards ---------------------------
+   The list is for reading first. Controls stay out of the way until asked
+   for, and each guest gets real breathing room instead of one dense line. */
+.admin__stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 0 0 1.6rem;
+                background: var(--border); border: 1px solid var(--border); }
+@media (min-width: 560px) { .admin__stats { grid-template-columns: repeat(4, 1fr); } }
+.stat { background: var(--bg); padding: 1.05rem 1.2rem; display: grid; gap: 0.18rem; }
+.stat__n { margin: 0; font-family: var(--font-display); font-size: 2rem; line-height: 1; color: var(--fg); }
+.stat__l { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.18em;
+           font-size: 0.56rem; color: var(--muted-fg); }
+
+.admin__tools { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; margin-bottom: 0.9rem; }
+.admin__search { flex: 1 1 13rem; min-width: 0; font-family: var(--font-sans); font-size: 0.88rem;
+                 color: var(--fg); background: var(--bg); border: 1px solid var(--border);
+                 border-radius: var(--radius); padding: 0.62rem 0.8rem; }
+.admin__search:focus { border-color: var(--accent); outline: none; }
+.admin__search::placeholder { color: var(--muted-fg); }
+.segmented { display: flex; border: 1px solid var(--border); }
+.segmented button { background: none; border: 0; cursor: pointer; font-family: var(--font-sans);
+                    text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.58rem;
+                    color: var(--muted-fg); padding: 0.66rem 0.9rem; }
+.segmented button + button { border-left: 1px solid var(--border); }
+.segmented button:hover { color: var(--fg); }
+.segmented button.is-on { background: var(--fg); color: var(--bg); }
+.admin__empty { font-family: var(--font-sans); font-size: 0.88rem; color: var(--muted-fg); padding: 2.4rem 0; }
+
+.admin__list { display: grid; gap: 0.9rem; }
+.gcard { background: var(--soft); border: 1px solid var(--border); padding: 1.3rem 1.4rem; display: grid; gap: 1rem; }
+.gcard.is-declined { opacity: 0.62; }
+/* Wraps so a long name pushes the status pill onto its own line instead of
+   squeezing itself to a couple of characters. */
+.gcard__head { display: flex; align-items: center; gap: 0.6rem 0.9rem; flex-wrap: wrap; }
+.gcard__who { display: grid; gap: 0.1rem; min-width: 0; flex: 1 1 auto; }
+.gcard__name { font-family: var(--font-display); font-weight: 400; font-size: 1.4rem; line-height: 1.15; margin: 0; color: var(--fg); }
+.gcard__email { font-family: var(--font-sans); font-size: 0.74rem; color: var(--muted-fg);
+                text-decoration: none; overflow-wrap: anywhere; }
+.gcard__email:hover { color: var(--accent); }
+.admin-avatar { flex: 0 0 auto; width: 48px; height: 48px; border-radius: 50%; overflow: hidden;
+                display: grid; place-items: center; background: color-mix(in oklch, var(--soft) 55%, var(--border)); }
+.admin-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.admin-avatar--ph { font-family: var(--font-display); font-weight: 500; color: var(--accent); }
+
+.pill { flex: 0 0 auto; align-self: flex-start; font-family: var(--font-sans); text-transform: uppercase;
+        letter-spacing: 0.16em; font-size: 0.56rem; padding: 0.34rem 0.7rem; border-radius: 999px; }
+.pill--yes { background: color-mix(in oklch, var(--palm) 18%, transparent); color: var(--palm); }
+.pill--no { background: color-mix(in oklch, var(--muted-fg) 16%, transparent); color: var(--muted-fg); }
+
+/* Label/value pairs, so each fact is self-describing rather than a loose chip. */
+.gcard__facts { margin: 0; display: grid; gap: 0.55rem; }
+.fact { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.2rem 1rem; align-items: baseline; }
+.fact dt { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.16em;
+           font-size: 0.56rem; color: var(--muted-fg); }
+.fact dd { margin: 0; font-size: 0.94rem; line-height: 1.5; color: var(--charcoal); overflow-wrap: anywhere; }
+.fact__sub { color: var(--muted-fg); }
+.fact--song { color: var(--accent); font-style: italic; }
+.fact--note { font-style: italic; color: var(--muted-fg); }
+
+.gcard__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+               border-top: 1px solid var(--border); padding-top: 0.85rem; }
+.gcard__editbtn { background: none; border: 0; cursor: pointer; font-family: var(--font-sans);
+                  text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.6rem; color: var(--accent); padding: 0; }
+.gcard__editbtn:hover { color: var(--fg); }
+.gcard__when { font-family: var(--font-sans); font-size: 0.62rem; letter-spacing: 0.06em; color: var(--muted-fg); }
+.gcard__edit { display: grid; gap: 0.85rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+.gcard__edit[hidden] { display: none; }
+.gcard__field { display: grid; gap: 0.35rem; }
+.gcard__field span { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.16em;
+                     font-size: 0.56rem; color: var(--muted-fg); }
+.gcard__actions { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; }
+.gcard__warn { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--charcoal); }
+.gcard__warn strong { color: var(--fg); }
+.admin-bio-input { width: 100%; min-width: 0; font-family: var(--font-sans); font-size: 0.92rem; color: var(--fg);
+                   background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.55rem 0.75rem; }
+.admin-bio-input:focus { border-color: var(--accent); outline: none; }
+.tag { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.58rem; padding: 0.25rem 0.6rem; border-radius: 999px; }
+.tag--yes { background: color-mix(in oklch, var(--palm) 18%, transparent); color: var(--palm); }
+.tag--no { background: color-mix(in oklch, var(--muted-fg) 16%, transparent); color: var(--muted-fg); }
+
+/* ============================================================================
+   FOOTER / CLOSING
+   ========================================================================== */
+.closing {
+  position: relative; text-align: center; color: var(--ivory);
+  padding-block: clamp(7rem, 16vw, 14rem);
+  padding-inline: var(--gutter);
+  overflow: hidden; isolation: isolate;
+}
+.closing__bg { position: absolute; inset: -4%; z-index: -2; background: #3a2c26 50% 36%/cover no-repeat; }
+.closing__bg.loaded { background-image: url("closing.jpg"); }
+.closing__wash { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in oklch, var(--ink) 55%, transparent), color-mix(in oklch, var(--ink) 30%, transparent)); }
+.closing__title { font-size: clamp(2.6rem, 7vw, 5.4rem); }
+.closing__body { font-family: var(--font-display); font-style: italic; font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-top: 1.2rem; color: color-mix(in oklch, var(--ivory) 88%, transparent); }
+.closing__mono { margin-top: clamp(2.5rem, 6vw, 4rem); font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.2em; }
+.closing__meta { margin-top: 0.8rem; font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.66rem; line-height: 2; color: color-mix(in oklch, var(--ivory) 72%, transparent); }
+.colophon { padding: 1.6rem var(--gutter) 0.5rem; text-align: center; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.24em; color: var(--muted-fg); }
+/* Music credit — Brendan Mills gave permission for his cover. Delete this rule
+   and the <p class="credit"> in index.html together if it's ever not wanted. */
+.credit { padding: 0 var(--gutter) 1.6rem; text-align: center; font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.2em; line-height: 2.1; color: var(--muted-fg); margin: 0; }
+.credit a, .pagefoot__credit a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 0.15rem; transition: color .3s ease, border-color .3s ease; }
+.credit a:hover, .pagefoot__credit a:hover { color: var(--accent); border-color: var(--accent); }
+.pagefoot__credit { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.56rem; color: var(--muted-fg); margin: 0.9rem 0 0; }
+
+/* ============================================================================
+   SCROLL REVEAL
+   ========================================================================== */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1); will-change: opacity, transform; }
+.reveal.in { opacity: 1; transform: none; }
+.reveal.d1 { transition-delay: .08s } .reveal.d2 { transition-delay: .16s } .reveal.d3 { transition-delay: .24s }
+/* Big editorial titles get a slightly grander rise than body copy. */
+.reveal-title { transform: translateY(28px); transition-duration: 1.15s; }
+
+/* ============================================================================
+   REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; transition-delay: 0s !important; }
+  .reveal { opacity: 1; transform: none; }
+  .kenburns, body.entered .hero__photo { animation: none; }
+  .hero__cue .line::after { animation: none; }
+  /* Hero name/date masks: show immediately, no slide. */
+  .hero__name > span, .hero__names .amp, .hero__date { transform: none !important; opacity: 1 !important; }
+}
+
+/* Print: just the practical details, on white, no fixed UI or dark panels. */
+@media print {
+  .gate, .audio-toggle, .site-header, .menu, .hero__cue, .lightbox, .heart__cover, .savedate__cue { display: none !important; }
+  .savedate__revealed { opacity: 1 !important; transform: none !important; }
+  body, .savedate, .rsvp, #travel, #gallery { background: #fff !important; color: #111 !important; }
+  #dress { background: #fff !important; color: #111 !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .hero__name > span, .hero__names .amp, .hero__date { transform: none !important; opacity: 1 !important; }
+  .hero { min-height: auto !important; color: #111 !important; page-break-after: avoid; }
+  .hero__media, .hero__photo, .hero__wash, .hero__grain, .closing__bg, .closing__wash { display: none !important; }
+  .hero__names, .hero__eyebrow, .hero__date, .closing, .closing__title, .closing__body, .closing__mono, .closing__meta { color: #111 !important; text-shadow: none !important; }
+  a { color: #111 !important; text-decoration: underline; }
+  .section { padding-block: 1.5rem !important; }
+}
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ============================================================================
+   MULTI-PAGE — subpage header band + minimal footer
+   ========================================================================== */
+.pagehead { text-align: center; padding: clamp(8rem, 18vw, 12rem) var(--gutter) clamp(0.5rem, 2vw, 1rem); }
+.pagehead__title { font-size: clamp(2.6rem, 8vw, 5.4rem); }
+.pagehead__sub { margin: 1.4rem auto 0; max-width: 46ch; color: var(--charcoal); }
+
+.pagefoot {
+  text-align: center; border-top: 1px solid var(--border);
+  padding: clamp(4rem, 9vw, 7rem) var(--gutter) clamp(2.5rem, 6vw, 4rem);
+}
+.pagefoot__mono { font-family: var(--font-display); font-weight: 300; font-size: 2rem; letter-spacing: 0.2em; margin: 0; }
+.pagefoot__nav { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: center; margin: 1.8rem 0 1.4rem; }
+.pagefoot__nav a {
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.26em;
+  font-size: 0.6rem; text-decoration: none; color: var(--muted-fg); transition: color .3s ease;
+}
+.pagefoot__nav a:hover { color: var(--accent); }
+.pagefoot__meta { font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.26em; font-size: 0.58rem; color: var(--muted-fg); margin: 0; }
+@media print { .pagefoot { border: 0; } }
+/* ── Add to calendar ────────────────────────────────────────────────────────
+   Introduced as a small editorial moment — a hairline drop, a serif invitation,
+   then two quiet framed buttons — rather than two bare links. */
+.cal { margin: clamp(2.6rem, 6vw, 3.8rem) auto 0; max-width: 44ch; }
+.cal__rule { display: block; width: 1px; height: clamp(1.6rem, 4vw, 2.4rem); margin: 0 auto clamp(1.1rem, 3vw, 1.6rem); background: linear-gradient(to bottom, var(--border), transparent); }
+.cal__lede { margin: 0; font-family: var(--font-display); font-weight: 300; font-style: italic; font-size: clamp(1.45rem, 3.2vw, 1.95rem); line-height: 1.3; color: var(--fg); }
+.cal__sub { margin: 0.75rem 0 0; font-size: 0.95rem; line-height: 1.65; color: var(--charcoal); }
+.cal__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.4rem, 3.5vw, 2rem) 0 0; }
+.cal-btn {
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.22em;
+  font-size: 0.62rem; text-decoration: none; color: var(--fg);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 0.9rem 1.5rem; line-height: 1;
+  transition: border-color .3s ease, color .3s ease, background-color .3s ease;
+}
+.cal-btn:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in oklch, var(--accent) 8%, transparent); }
+/* On the itinerary the section already has a heading, so it needs no lede. */
+.cal--inline { margin-inline: 0; text-align: left; max-width: none; }
+.cal--inline .cal__actions { justify-content: flex-start; }
+
+.savedate__more { margin: clamp(2.6rem, 6vw, 3.6rem) 0 0; }
+.savedate__more a {
+  font-family: var(--font-sans); text-transform: uppercase; letter-spacing: 0.3em;
+  font-size: 0.62rem; text-decoration: none; color: var(--accent);
+  border-bottom: 1px solid var(--border); padding-bottom: 0.45rem; transition: border-color .3s ease;
+}
+.savedate__more a:hover { border-color: var(--accent); }
+
+/* The fine print beside the calendar buttons — Google only takes the weekend. */
+.cal__fine { display: block; margin-top: 0.45rem; font-size: 0.86em; color: var(--muted-fg); }
+
+/* --- Dress-code lookbook (/details/#dress) -------------------------------
+   Mara sent two collage screenshots; each look is cut out of them and
+   shown as its own card so the section reads as a lookbook rather than two
+   pasted screenshots. The cards keep the boards' own pale backdrop — black
+   eveningwear on a dark section would otherwise disappear — and tapping any
+   one opens it full size in the shared lightbox. */
+.lookbook { margin: clamp(2.6rem, 6vw, 4rem) auto 0; max-width: 54rem; display: grid; gap: clamp(2rem, 4vw, 3rem); }
+/* min-width:0 — a grid item defaults to min-width:auto and refuses to shrink
+   below its content, so the inner track grid punched straight through the
+   section on a phone (5 columns in a 288px column, clipped by overflow). */
+.lookbook__group { display: grid; gap: 1rem; min-width: 0; }
+.lookbook__label {
+  margin: 0; font-family: var(--font-sans); font-weight: 400; text-transform: uppercase;
+  letter-spacing: 0.28em; font-size: 0.6rem; text-align: center;
+  color: color-mix(in oklch, var(--ivory) 82%, transparent);
+}
+/* gap:0 and a shared backdrop — the figures are cut to a common scale and
+   baseline, so butted together they read as ONE lined-up photograph while each
+   remains its own tappable tile. */
+/* flex, not grid: an 11-figure line-up leaves a partial last row, and flex can
+   centre it so it reads as deliberate rather than ragged. */
+.lookbook__grid {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0; min-width: 0;
+  background: #e8e8e8; border: 1px solid rgba(241, 235, 223, 0.14);
+}
+/* four across: 8 women and 4 men both tile into whole rows, so the board
+   is a clean rectangle with no stranded figure. */
+.lookbook__grid > .look { flex: 0 0 25%; max-width: 25%; }
+@media (max-width: 700px) { .lookbook__grid > .look { flex-basis: 33.3333%; max-width: 33.3333%; } }
+@media (max-width: 480px) { .lookbook__grid > .look { flex-basis: 50%; max-width: 50%; } }
+
+/* Both boards share the full width so every figure renders at exactly the same
+   size — capping the men's row made those four 20% smaller than the women's. */
+.lookbook .look { margin: 0; padding: 0; background: none; border: 0; cursor: zoom-in; }
+/* Has to out-specify the gallery's `.tile .duo { height: auto }` (two classes) —
+   a one-class selector silently loses and the cards render at natural height. */
+.lookbook .tile .duo {
+  display: block; width: 100%; aspect-ratio: 2 / 3; height: auto;
+  object-fit: cover; object-position: center;
+  background: #e8e8e8; border: 0;
+  transition: opacity 1s ease, filter 0.35s ease;
+}
+/* No lift or scale — either would tear the seam between neighbouring figures.
+   The tapped figure brightens against its neighbours instead. */
+.lookbook .tile:hover .duo.loaded { filter: brightness(1.06); }
+.lookbook .tile:not(:hover) .duo.loaded { filter: none; }
+/* The gallery scales its tiles; these lift — a pale card growing inside a dark
+   frame reads as a glitch. */
+
+.lookbook .look:focus-visible { outline: none; }
+.lookbook .look:focus-visible .duo { outline: 2px solid var(--accent); outline-offset: -2px; }
+.lookbook__hint {
+  text-align: center; margin: 1.8rem 0 0; font-family: var(--font-sans);
+  font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: color-mix(in oklch, var(--ivory) 58%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lookbook .tile .duo { transition: none; }
+  .lookbook .tile:hover .duo.loaded { filter: none; }
+}

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>The Ashford Wedding — Nevis, West Indies · May 2027</title>
+<meta name="description" content="Julian &amp; Mara Ashford — bon voyage. A celebration at the Four Seasons, Nevis · May 6–10, 2027." />
+<!-- Starts as the envelope's navy, not the site's near-black: iOS Safari paints the
+     status-bar and toolbar strips with theme-color, and anything else leaves dark
+     bands above and below the opening film. app.js swaps it to the site colour
+     (#191512) once the gate opens. -->
+<meta name="theme-color" content="#17263a" id="themeColor" />
+<meta name="color-scheme" content="dark" />
+
+<link rel="canonical" href="https://meni-gottesman.github.io/nevis-affair/" />
+
+<!-- Open Graph / social share -->
+<meta property="og:site_name" content="The Ashford Wedding" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://meni-gottesman.github.io/nevis-affair/" />
+<meta property="og:title" content="The Ashford Wedding — Nevis, West Indies" />
+<meta property="og:description" content="Bon voyage. Four Seasons, Nevis · May 6–10, 2027 · For a select few." />
+<meta property="og:image" content="https://meni-gottesman.github.io/nevis-affair/assets/og.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Julian &amp; Mara on the water off Nevis" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Ashford Wedding — Nevis, West Indies" />
+<meta name="twitter:description" content="Bon voyage. Four Seasons, Nevis · May 6–10, 2027 · For a select few." />
+<meta name="twitter:image" content="https://meni-gottesman.github.io/nevis-affair/assets/og.jpg" />
+<meta name="twitter:image:alt" content="Julian &amp; Mara on the water off Nevis" />
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23262114'/><text x='16' y='23' font-family='Georgia,serif' font-size='17' fill='%23f4efe4' text-anchor='middle'>D</text></svg>" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<!-- Added to the Home Screen this runs with NO Safari chrome at all — genuinely
+     edge to edge, the film under the clock. In Safari itself no web page can draw
+     under the status bar or toolbar; Safari tints those to match the page. -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Ashford" />
+<link rel="manifest" href="site.webmanifest" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<!-- LCP: fetch the hero image immediately (mobile variant on small screens) -->
+<link rel="preload" as="image" href="assets/hero.jpg"
+      imagesrcset="assets/hero-m.jpg 932w, assets/hero.jpg 1597w"
+      imagesizes="100vw" fetchpriority="high" />
+
+<link rel="stylesheet" href="assets/style.css?v=33" />
+
+<!-- No-JS fallback: if scripts don't run, lift the opening film, unlock scroll,
+     and reveal all content so the site is never trapped behind the gate. -->
+<noscript><style>
+  #gate{display:none !important}
+  body.is-sealed{overflow:auto !important}
+  .reveal,main,.closing,.colophon,.site-header,.hero__photo{opacity:1 !important}
+  .reveal{transform:none !important}
+  .hero__name{overflow:visible !important}
+  .hero__name>span{transform:none !important}
+  .hero__date{opacity:1 !important;transform:none !important}
+  .savedate__revealed{opacity:1 !important;transform:none !important}
+  .closing__bg{background-image:url("assets/closing.jpg") !important}
+  .hero__photo,.closing__bg{animation:none !important}
+</style></noscript>
+</head>
+
+<body class="is-sealed">
+
+<!-- ====================== ENTRY GATE (the opening film) ====================== -->
+<!-- The couple's navy "J&M" wax-seal envelope: plays on tap (with its ambient
+     score), opens and blooms to white, then the site fades in from white.
+     object-fit:cover fills every screen. -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" tabindex="0"
+     aria-label="Your invitation — press Enter to open it">
+  <!-- NOT muted: this film carries the score in its own audio track, so the page
+       has exactly one media element with sound. On iPhone a separate <audio>
+       element is silenced by the Ring/Silent switch and a hidden one may never be
+       allowed to play at all — this one is visible and started by the guest's own
+       tap, so its audio is always permitted, and score and picture can't drift. -->
+  <video class="gate__video" id="gateVideo" playsinline preload="auto"
+         poster="assets/opening-poster.jpg?v=13" aria-hidden="true">
+    <source src="assets/opening.webm?v=15" type="video/webm" />
+    <source src="assets/opening.mp4?v=15" type="video/mp4" />
+  </video>
+  <p class="gate__hint" id="gateHint">Tap to open</p>
+</div>
+
+<!-- ====================== SOUND ======================
+     The score lives in the opening film above (one media element, see the note
+     there). This control mutes/unmutes it; the choice is remembered, and playback
+     pauses when the guest leaves or backgrounds the site. -->
+<button class="audio-toggle is-muted" id="audioToggle" aria-pressed="false" aria-label="Play the music">
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+</button>
+
+<!-- ====================== HEADER ====================== -->
+<header class="site-header on-hero" id="header">
+  <a class="brand" href="#top">Ashford</a>
+  <div class="site-header__right">
+    <a class="header-rsvp" href="#rsvp">RSVP</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="menu">
+      Menu <span class="lines" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<!-- ====================== MENU OVERLAY ====================== -->
+<nav class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Primary">
+  <div class="menu__top">
+    <span class="brand">Ashford</span>
+    <button class="menu__close" id="menuClose">Close</button>
+  </div>
+  <div class="menu__nav">
+    <a href="#top"><span class="idx">01</span>Home</a>
+    <a href="/nevis-affair/details/"><span class="idx">02</span>Details</a>
+    <a href="/nevis-affair/details/#itinerary"><span class="idx sub">&mdash;</span>Itinerary</a>
+    <a href="/nevis-affair/details/#travel"><span class="idx sub">&mdash;</span>Travel</a>
+    <a href="/nevis-affair/details/#stay"><span class="idx sub">&mdash;</span>Stay</a>
+    <a href="/nevis-affair/details/#amenities"><span class="idx sub">&mdash;</span>Amenities</a>
+    <a href="/nevis-affair/details/#dining"><span class="idx sub">&mdash;</span>Dining</a>
+    <a href="/nevis-affair/details/#dress"><span class="idx sub">&mdash;</span>Dress</a>
+    <a href="/nevis-affair/details/#registry"><span class="idx sub">&mdash;</span>Registry</a>
+    <a href="/nevis-affair/gallery/"><span class="idx">03</span>Gallery</a>
+    <a href="#rsvp"><span class="idx">04</span>RSVP</a>
+  </div>
+  <div class="menu__foot">
+    <span>Four Seasons, Nevis</span>
+    <span>May 6&ndash;10, 2027</span>
+  </div>
+</nav>
+
+<main id="top" tabindex="-1">
+
+<!-- ====================== HERO ====================== -->
+<section class="hero" aria-label="Julian and Mara Ashford — Nevis, May 2027">
+  <div class="hero__media" aria-hidden="true">
+    <img class="hero__photo" src="assets/hero.jpg"
+         srcset="assets/hero-m.jpg 932w, assets/hero.jpg 1597w" sizes="100vw"
+         alt="" width="1597" height="2400" fetchpriority="high" decoding="async" />
+  </div>
+  <div class="hero__wash" aria-hidden="true"></div>
+  <svg class="hero__grain" aria-hidden="true"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#grain)"/></svg>
+
+  <div class="hero__content">
+    <h1 class="display hero__names" aria-label="Julian and Mara">
+      <span class="hero__name d1"><span>Julian&nbsp;<i class="amp">&amp;</i>&nbsp;Mara</span></span>
+    </h1>
+    <p class="hero__date">Nevis, West Indies<br />May 6&ndash;10, 2027</p>
+  </div>
+  <a class="hero__cue" href="#savedate" aria-label="Continue">Continue<span class="line" aria-hidden="true"></span></a>
+</section>
+
+<!-- ====================== SAVE THE DATE ====================== -->
+<section class="section savedate" id="savedate">
+  <div class="narrow">
+    <p class="eyebrow reveal">Save the Date</p>
+    <p class="savedate__cue reveal d1" id="heartsCue">Tap each heart to reveal the day</p>
+
+    <!-- Three hearts hide the day. Tap a heart to reveal it (or scratch / press Enter)
+         to uncover Day · Month · Year; all three open the line below. -->
+    <div class="hearts reveal d1" id="hearts" role="group" aria-label="Tap the three hearts to reveal the day">
+      <div class="heart">
+        <div class="heart__under" aria-hidden="true"><span class="heart__label">Day</span><span class="heart__value">07</span></div>
+        <canvas class="heart__cover" id="heartCanvas1" tabindex="0" role="button" aria-label="Reveal the day — the seventh"></canvas>
+      </div>
+      <div class="heart">
+        <div class="heart__under" aria-hidden="true"><span class="heart__label">Month</span><span class="heart__value">May</span></div>
+        <canvas class="heart__cover" id="heartCanvas2" tabindex="0" role="button" aria-label="Reveal the month — May"></canvas>
+      </div>
+      <div class="heart">
+        <div class="heart__under" aria-hidden="true"><span class="heart__label">Year</span><span class="heart__value">2027</span></div>
+        <canvas class="heart__cover" id="heartCanvas3" tabindex="0" role="button" aria-label="Reveal the year — 2027"></canvas>
+      </div>
+    </div>
+
+    <!-- Revealed only once all three hearts are scratched, so the countdown
+         can't give the date away before the guest uncovers it. -->
+    <div class="savedate__revealed" id="savedateRevealed">
+      <p class="savedate__line">Friday &mdash; The Vows.</p>
+      <div class="countdown" id="countdown" aria-label="Time until the ceremony">
+        <div class="count"><b data-cd="days">&mdash;&mdash;</b><span>Days</span></div>
+        <div class="count"><b data-cd="hours">&mdash;&mdash;</b><span>Hours</span></div>
+        <div class="count"><b data-cd="mins">&mdash;&mdash;</b><span>Minutes</span></div>
+      </div>
+    </div>
+
+    <!-- One .ics holds the weekend, the ceremony and the three reply dates
+         (each with a week-prior reminder). Rebuild with tools/make_ics.py. -->
+    <div class="cal reveal d2">
+      <span class="cal__rule" aria-hidden="true"></span>
+      <p class="cal__lede">Keep the weekend close.</p>
+      <p class="cal__sub">The days in Nevis, the ceremony, and when to reply &mdash; set into your calendar in a single tap. <span class="cal__fine">Google adds the weekend; the Apple &amp; Outlook file carries every date.</span></p>
+      <p class="cal__actions">
+        <a class="cal-btn" href="assets/ashford-nevis-2027.ics?v=2" download="ashford-nevis-2027.ics">Apple &amp; Outlook</a>
+        <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Julian+%26+Mara%27s+Wedding+%E2%80%94+Nevis&amp;dates=20270506%2F20270511&amp;details=The+Ashford+wedding+at+the+Four+Seasons+Resort+Nevis.%0AArrive+Thu+May+6%2C+depart+Mon+May+10.+Fly+into+St.+Kitts+%28SKB%29.%0AAll+the+details%3A+https%3A%2F%2Fmeni-gottesman.github.io%2Fnevis-affair%2F&amp;location=Four+Seasons+Resort+Nevis%2C+Pinney%27s+Beach%2C+Charlestown%2C+Nevis%2C+West+Indies" target="_blank" rel="noopener">Google Calendar</a>
+      </p>
+    </div>
+
+    <p class="savedate__more reveal d2">
+      <a href="/nevis-affair/details/">The details &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- ====================== RSVP ====================== -->
+<section class="section rsvp" id="rsvp">
+  <div class="narrow">
+    <div class="editorial__head reveal" style="max-width:none; text-align:center; margin-inline:auto">
+      <p class="eyebrow">RSVP</p>
+      <h2 class="display editorial__title">Will you join us?</h2>
+      <p class="lede" style="margin-top:1.4rem">Please know there is absolutely no expectation &mdash; only our gratitude, whether you join us in paradise or celebrate with us from home.</p>
+      <p class="field__hint" style="margin-top:1.1rem; font-size:0.92rem">Kindly reply <strong>as soon as you can</strong>. To hold your room within our block, a deposit is due by <strong>November 1</strong>, with the balance by <strong>February 1</strong>.</p>
+    </div>
+
+    <form class="form reveal d1" id="rsvpForm" novalidate>
+      <div class="grid-2">
+        <div class="field">
+          <label for="guestName">Your name</label>
+          <input type="text" id="guestName" name="name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="guestEmail">Email</label>
+          <input type="email" id="guestEmail" name="email" autocomplete="email" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <fieldset>
+          <legend>Will you be on the island?</legend>
+          <div class="choice-row" role="radiogroup" aria-label="Attendance">
+            <label class="chip"><input type="radio" name="attending" value="yes" required /><span>Joyfully accepts</span></label>
+            <label class="chip"><input type="radio" name="attending" value="no" /><span>Regretfully declines</span></label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="field">
+        <label for="weddingSong">Your wedding song</label>
+        <p class="field__hint">Married? Your wedding song. Not yet? Your favorite love song. We’ll be listening.</p>
+        <input type="text" id="weddingSong" name="song" autocomplete="off" required placeholder="Artist — Title" />
+      </div>
+
+      <div id="ifYes">
+        <div class="field">
+          <label>Who’s joining you?</label>
+          <p class="field__hint">Add anyone coming with you. Leave empty if it’s just you. <strong>This is an adults-only celebration.</strong></p>
+          <div class="companions" id="companions"></div>
+          <button type="button" class="link-btn" id="addCompanion">+ Add a guest</button>
+        </div>
+        <div class="field">
+          <fieldset>
+            <legend>Have you booked your room at the Four Seasons yet?</legend>
+            <div class="choice-row" role="radiogroup" aria-label="Room booking status">
+              <label class="chip"><input type="radio" name="roomBooked" value="yes" /><span>Yes, it’s booked</span></label>
+              <label class="chip"><input type="radio" name="roomBooked" value="not-yet" /><span>Not yet</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="field">
+          <label for="guestBio">A little bio <span class="field__opt">(optional)</span></label>
+          <p class="field__hint"><strong>Everyone can see this</strong> — it appears next to your name on the guest list. Where you’re from, how you know Julian &amp; Mara, anything. We can add one for you too.</p>
+          <input type="text" id="guestBio" name="bio" maxlength="140" autocomplete="off" placeholder="Old friends of the groom, in from Lisbon…" />
+        </div>
+        <div class="field">
+          <label>A photo <span class="field__opt">(optional)</span></label>
+          <p class="field__hint">Add a photo to your place on the guest list.</p>
+          <div class="photo-field">
+            <img class="photo-preview" id="photoPreview" alt="Your photo preview" hidden />
+            <span class="photo-field__btns">
+              <button type="button" class="link-btn" id="photoChoose">Choose a photo</button>
+              <input type="file" id="guestPhoto" accept="image/*" aria-label="Choose a photo of yourself" hidden />
+              <button type="button" class="link-btn link-btn--danger" id="photoClear" hidden>Remove</button>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="note">A note (optional)</label>
+          <textarea id="note" name="note" placeholder="Anything you’d like us to know…"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="rsvpSubmit">Send reply</button>
+      <p class="form__status" id="rsvpStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="rsvp__thanks" id="rsvpThanks" role="status" aria-live="polite">
+      <p class="eyebrow" id="thanksEyebrow">Received with love</p>
+      <p class="display" id="thanksName">Thank you</p>
+      <p style="color:var(--charcoal); margin-top:0.8rem" id="thanksMsg">We can’t wait to celebrate with you in Nevis.</p>
+      <button type="button" class="link-btn" id="rsvpEditAgain">Change my reply</button>
+    </div>
+
+    <!-- Public guest list — who has said they're coming -->
+    <div class="guestlist reveal" id="guestlist" aria-live="polite">
+      <p class="eyebrow" style="text-align:center">On the island</p>
+      <p class="guestlist__count display" id="guestlistCount">&nbsp;</p>
+      <ul class="guestlist__items" id="guestlistItems"></ul>
+      <p class="guestlist__empty" id="guestlistEmpty" hidden>Be the first to say you’ll be there.</p>
+      <p class="guestlist__locked" id="guestlistLocked" hidden>Send your reply above and you’ll see everyone who’s coming.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ====================== CLOSING ====================== -->
+<footer class="closing" aria-label="With all our love">
+  <div class="closing__bg kenburns" aria-hidden="true"></div>
+  <div class="closing__wash" aria-hidden="true"></div>
+  <div class="reveal">
+    <h2 class="display closing__title">We’ll see you on the island</h2>
+    <p class="closing__body">Until then — bon voyage.</p>
+    <p class="closing__mono">Ashford</p>
+    <p class="closing__meta">Four Seasons, Nevis · West Indies · MMXXVII</p>
+  </div>
+</footer>
+<p class="colophon">With love · Julian &amp; Mara <a href="/nevis-affair/admin/" class="hosts-link" id="hostsLink">Hosts</a></p>
+<!-- Courtesy credit — Brendan Mills shared his cover for this site. -->
+<p class="credit">
+  Music &mdash; &ldquo;Just the Two of Us&rdquo; · sax cover by Brendan Mills<br />
+  Created by <a href="https://menigottesman.com" target="_blank" rel="noopener">Meni Gottesman</a>
+</p>
+
+
+<script src="assets/app.js?v=26"></script>
+</body>
+</html>

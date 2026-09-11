@@ -1,0 +1,14 @@
+{
+  "name": "The Ashford Wedding",
+  "short_name": "Ashford",
+  "description": "Julian & Mara Ashford — Four Seasons, Nevis · May 6–10, 2027.",
+  "start_url": "/nevis-affair/",
+  "scope": "/nevis-affair/",
+  "display": "standalone",
+  "background_color": "#191512",
+  "theme_color": "#191512",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

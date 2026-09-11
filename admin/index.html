@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Hosts — The Ashford Wedding</title>
+<meta name="description" content="The guest list for Julian &amp; Mara." />
+<meta name="theme-color" content="#191512" />
+<meta name="color-scheme" content="dark" />
+
+<!-- Never indexed, never followed, never previewed in a link unfurl. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<meta name="referrer" content="no-referrer" />
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23262114'/><text x='16' y='23' font-family='Georgia,serif' font-size='17' fill='%23f4efe4' text-anchor='middle'>D</text></svg>" />
+<link rel="apple-touch-icon" href="/nevis-affair/assets/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/nevis-affair/assets/favicon-32.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Ashford Hosts" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="/nevis-affair/assets/style.css?v=33" />
+</head>
+
+<body>
+
+<header class="site-header scrolled" id="header">
+  <a class="brand" href="/nevis-affair/">Ashford</a>
+  <div class="site-header__right">
+    <a class="header-rsvp" href="/nevis-affair/">Back to the site</a>
+  </div>
+</header>
+
+<main id="top" tabindex="-1">
+
+<section class="admin admin--page" id="admin" aria-label="Hosts admin" hidden>
+  <div class="admin__inner">
+    <p class="eyebrow">Hosts only</p>
+    <h1 class="display admin__title">The guest list</h1>
+
+    <form class="admin__gate" id="adminGate">
+      <div class="field">
+        <label for="adminPw">Password</label>
+        <input type="password" id="adminPw" autocomplete="current-password"
+               autocapitalize="none" autocorrect="off" spellcheck="false" />
+      </div>
+      <button class="btn" type="submit" id="adminEnter">Enter</button>
+      <p class="form__status" id="adminError"></p>
+    </form>
+
+    <div class="admin__panel" id="adminPanel" hidden>
+      <!-- Counts first: the question the couple actually open this to answer is
+           "how many are coming?", not "who replied most recently". -->
+      <dl class="admin__stats">
+        <div class="stat"><dd class="stat__n" id="statComing">0</dd><dt class="stat__l">Coming</dt></div>
+        <div class="stat"><dd class="stat__n" id="statHeads">0</dd><dt class="stat__l">Guests</dt></div>
+        <div class="stat"><dd class="stat__n" id="statDeclined">0</dd><dt class="stat__l">Declined</dt></div>
+        <div class="stat"><dd class="stat__n" id="statRooms">0</dd><dt class="stat__l">Rooms booked</dt></div>
+      </dl>
+
+      <div class="admin__tools">
+        <input type="search" id="adminSearch" class="admin__search" placeholder="Search a name or email"
+               aria-label="Search the guest list" autocomplete="off" />
+        <div class="segmented" role="group" aria-label="Filter replies">
+          <button type="button" data-filter="all" class="is-on">All</button>
+          <button type="button" data-filter="yes">Coming</button>
+          <button type="button" data-filter="no">Declined</button>
+        </div>
+        <button class="btn btn--ghost" type="button" id="downloadCsv">Download CSV</button>
+      </div>
+
+      <p class="admin__summary" id="adminSummary" role="status"></p>
+      <div class="admin__list" id="adminList"></div>
+      <input type="file" id="adminPhotoInput" accept="image/*" hidden />
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="/nevis-affair/assets/app.js?v=26"></script>
+</body>
+</html>
